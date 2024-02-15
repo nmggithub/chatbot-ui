@@ -36,13 +36,26 @@ const suggestionToRanges = (suggestion: AutocompleteSuggestion) => {
 const AutocompleteSuggestionComponent: FC<
   AutocompleteSuggestionComponentProps
 > = ({ suggestion }) => {
+  const { setUserInput, setIsAutocompletePickerOpen } =
+    useContext(ChatbotUIContext)
   const ranges = useMemo(() => suggestionToRanges(suggestion), [suggestion])
-  return ranges.map(range =>
-    range.highlighted ? (
-      <b key={range.content}>{range.content}</b>
-    ) : (
-      range.content
-    )
+  const handleSuggestion = () => {
+    setUserInput(suggestion.suggestion)
+    setIsAutocompletePickerOpen(false)
+  }
+  return (
+    <span
+      className="cursor-pointer hover:opacity-50"
+      onClick={handleSuggestion}
+    >
+      {ranges.map(range =>
+        range.highlighted ? (
+          <b key={range.content}>{range.content}</b>
+        ) : (
+          range.content
+        )
+      )}
+    </span>
   )
 }
 
