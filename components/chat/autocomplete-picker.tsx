@@ -6,7 +6,7 @@ interface AutocompleteSuggestionComponentProps {
   suggestion: AutocompleteSuggestion
 }
 
-type Range = { highlighted: boolean; content: string }
+type Range = { highlighted: boolean; content: string; key: number }
 const normalizeRanges = (rangesIn: Range[]): Range[] => {
   const normalizedRanges: Range[] = []
   let currentRange: Range = rangesIn[0]
@@ -25,7 +25,7 @@ const normalizeRanges = (rangesIn: Range[]): Range[] => {
 const suggestionToRanges = (suggestion: AutocompleteSuggestion) => {
   const suggestionTextChars: Range[] = suggestion.suggestion
     .split("")
-    .map(char => ({ highlighted: false, content: char }))
+    .map((char, i) => ({ highlighted: false, content: char, key: i }))
   for (const highlight of suggestion.highlights) {
     for (let i = highlight.start; i < highlight.end; i++)
       suggestionTextChars[i].highlighted = true
@@ -50,7 +50,7 @@ const AutocompleteSuggestionComponent: FC<
     >
       {ranges.map(range =>
         range.highlighted ? (
-          <b key={range.content}>{range.content}</b>
+          <b key={range.key}>{range.content}</b>
         ) : (
           range.content
         )
