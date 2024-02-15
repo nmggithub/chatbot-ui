@@ -185,6 +185,9 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
             handleInputChange(value)
             handleAutocomplete(value)
           }}
+          aria-autocomplete="list"
+          aria-controls="autocomplete-list"
+          aria-haspopup="dialog"
           value={userInput}
           minRows={1}
           maxRows={18}
