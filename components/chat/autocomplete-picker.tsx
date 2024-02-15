@@ -6,31 +6,37 @@ interface AutocompleteSuggestionComponentProps {
   suggestion: AutocompleteSuggestion
 }
 
+type Range = { highlighted: boolean; content: string }
+const normalizeRanges = (rangesIn: Range[]): Range[] => {
+  return rangesIn // TODO: fix this function
+  const normalizedRanges: Range[] = []
+  let currentRange: Range = rangesIn[0]
+  for (const range of rangesIn.slice(1)) {
+    if (range.highlighted === currentRange.highlighted)
+      currentRange.content += range.content
+    else {
+      normalizedRanges.push(currentRange)
+      currentRange = range
+    }
+  }
+  return normalizedRanges
+}
+
+const suggestionToRanges = (suggestion: AutocompleteSuggestion) => {
+  const suggestionTextChars: Range[] = suggestion.suggestion
+    .split("")
+    .map(char => ({ highlighted: false, content: char }))
+  for (const highlight of suggestion.highlights) {
+    for (let i = highlight.start; i < highlight.end; i++)
+      suggestionTextChars[i].highlighted = true
+  }
+  return normalizeRanges(suggestionTextChars)
+}
+
 const AutocompleteSuggestionComponent: FC<
   AutocompleteSuggestionComponentProps
 > = ({ suggestion }) => {
-  const ranges = useMemo(() => {
-    type Range = { highlighted: boolean; content: string }
-    const _ranges: Range[] = []
-    let position = 0
-    const { suggestion: text, highlights } = suggestion
-    for (const highlight of highlights) {
-      if (highlight.start > position)
-        _ranges.push({
-          highlighted: false,
-          content: text.substring(position, highlight.start)
-        })
-
-      _ranges.push({
-        highlighted: true,
-        content: text.substring(highlight.start, highlight.end)
-      })
-      position = highlight.end
-    }
-    if (position < text.length)
-      _ranges.push({ highlighted: false, content: text.substring(position) })
-    return _ranges
-  }, [suggestion])
+  const ranges = useMemo(() => suggestionToRanges(suggestion), [suggestion])
   return ranges.map(range =>
     range.highlighted ? (
       <b key={range.content}>{range.content}</b>
