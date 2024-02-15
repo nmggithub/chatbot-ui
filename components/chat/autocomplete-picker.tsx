@@ -8,7 +8,6 @@ interface AutocompleteSuggestionComponentProps {
 
 type Range = { highlighted: boolean; content: string }
 const normalizeRanges = (rangesIn: Range[]): Range[] => {
-  return rangesIn // TODO: fix this function
   const normalizedRanges: Range[] = []
   let currentRange: Range = rangesIn[0]
   for (const range of rangesIn.slice(1)) {
@@ -19,6 +18,7 @@ const normalizeRanges = (rangesIn: Range[]): Range[] => {
       currentRange = range
     }
   }
+  normalizedRanges.push(currentRange)
   return normalizedRanges
 }
 
