@@ -6,7 +6,8 @@ import {
   LLM,
   MessageImage,
   OpenRouterLLM,
-  WorkspaceImage
+  WorkspaceImage,
+  AutocompleteSuggestion
 } from "@/types"
 import { AssistantImage } from "@/types/images/assistant-image"
 import { VALID_ENV_KEYS } from "@/types/valid-keys"
@@ -106,6 +107,10 @@ interface ChatbotUIContext {
   setFocusFile: Dispatch<SetStateAction<boolean>>
   focusTool: boolean
   setFocusTool: Dispatch<SetStateAction<boolean>>
+  isAutocompletePickerOpen: boolean
+  setIsAutocompletePickerOpen: Dispatch<SetStateAction<boolean>>
+  autocompleteSuggestions: AutocompleteSuggestion[]
+  setAutocompleteSuggestions: Dispatch<SetStateAction<AutocompleteSuggestion[]>>
 
   // ATTACHMENTS STORE
   chatFiles: ChatFile[]
@@ -226,6 +231,10 @@ export const ChatbotUIContext = createContext<ChatbotUIContext>({
   setFocusFile: () => {},
   focusTool: false,
   setFocusTool: () => {},
+  isAutocompletePickerOpen: false,
+  setIsAutocompletePickerOpen: () => {},
+  autocompleteSuggestions: [],
+  setAutocompleteSuggestions: () => {},
 
   // ATTACHMENTS STORE
   chatFiles: [],

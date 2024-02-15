@@ -29,9 +29,6 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
   })
 
   const [isTyping, setIsTyping] = useState<boolean>(false)
-  const [autoCompleteSuggestions, setAutoCompleteSuggestions] = useState<
-    AutocompleteSuggestion[]
-  >([])
 
   const {
     userInput,
@@ -61,19 +58,7 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
     handleFocusChatInput
   } = useChatHandler()
 
-  const { handleInputChange } = usePromptAndCommand()
-
-  const handleAutocomplete = async (value: string) => {
-    const response = await fetch("/api/autocomplete", {
-      body: JSON.stringify({ query: value }),
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    const json = await response.json()
-    setAutoCompleteSuggestions(json)
-  }
+  const { handleInputChange, handleAutocomplete } = usePromptAndCommand()
 
   const { filesToAccept, handleSelectDeviceFile } = useSelectFileHandler()
 
@@ -209,14 +194,6 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
           onCompositionStart={() => setIsTyping(true)}
           onCompositionEnd={() => setIsTyping(false)}
         />
-
-        <div className="border-input bg-background absolute bottom-[76px] rounded-xl border-2">
-          <ul className="mx-[15px] my-[10px]">
-            {autoCompleteSuggestions.map((suggestion, i) => {
-              return <li key={i}>{suggestion.suggestion}</li>
-            })}
-          </ul>
-        </div>
 
         <div className="absolute bottom-[14px] right-3 cursor-pointer hover:opacity-50">
           {isGenerating ? (

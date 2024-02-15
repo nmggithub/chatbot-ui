@@ -21,7 +21,8 @@ import {
   LLM,
   MessageImage,
   OpenRouterLLM,
-  WorkspaceImage
+  WorkspaceImage,
+  AutocompleteSuggestion
 } from "@/types"
 import { AssistantImage } from "@/types/images/assistant-image"
 import { VALID_ENV_KEYS } from "@/types/valid-keys"
@@ -104,6 +105,11 @@ export const GlobalState: FC<GlobalStateProps> = ({ children }) => {
   const [focusPrompt, setFocusPrompt] = useState(false)
   const [focusFile, setFocusFile] = useState(false)
   const [focusTool, setFocusTool] = useState(false)
+  const [isAutocompletePickerOpen, setIsAutocompletePickerOpen] =
+    useState(false)
+  const [autocompleteSuggestions, setAutocompleteSuggestions] = useState<
+    AutocompleteSuggestion[]
+  >([])
 
   // ATTACHMENTS STORE
   const [chatFiles, setChatFiles] = useState<ChatFile[]>([])
@@ -290,6 +296,10 @@ export const GlobalState: FC<GlobalStateProps> = ({ children }) => {
         setFocusFile,
         focusTool,
         setFocusTool,
+        isAutocompletePickerOpen,
+        setIsAutocompletePickerOpen,
+        autocompleteSuggestions,
+        setAutocompleteSuggestions,
 
         // ATTACHMENT STORE
         chatFiles,

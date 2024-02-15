@@ -17,7 +17,9 @@ export const usePromptAndCommand = () => {
     setUseRetrieval,
     setToolCommand,
     setIsToolPickerOpen,
-    setSelectedTools
+    setSelectedTools,
+    setIsAutocompletePickerOpen,
+    setAutocompleteSuggestions
   } = useContext(ChatbotUIContext)
 
   const handleInputChange = (value: string) => {
@@ -44,6 +46,7 @@ export const usePromptAndCommand = () => {
       setAtCommand("")
       setIsToolPickerOpen(false)
       setToolCommand("")
+      setIsAutocompletePickerOpen(value !== "")
     }
 
     setUserInput(value)
@@ -118,11 +121,26 @@ export const usePromptAndCommand = () => {
     setSelectedTools(prev => [...prev, tool])
   }
 
+  const handleAutocomplete = async (value: string) => {
+    setIsAutocompletePickerOpen(false)
+    const response = await fetch("/api/autocomplete", {
+      body: JSON.stringify({ query: value }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    const json = await response.json()
+    setAutocompleteSuggestions(json)
+    setIsAutocompletePickerOpen(true)
+  }
+
   return {
     handleInputChange,
     handleSelectPrompt,
     handleSelectUserFile,
     handleSelectUserCollection,
-    handleSelectTool
+    handleSelectTool,
+    handleAutocomplete
   }
 }

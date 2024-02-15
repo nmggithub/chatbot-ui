@@ -4,6 +4,7 @@ import { usePromptAndCommand } from "./chat-hooks/use-prompt-and-command"
 import { FilePicker } from "./file-picker"
 import { PromptPicker } from "./prompt-picker"
 import { ToolPicker } from "./tool-picker"
+import { AutocompletePicker } from "./autocomplete-picker"
 
 interface ChatCommandInputProps {}
 
@@ -16,7 +17,8 @@ export const ChatCommandInput: FC<ChatCommandInputProps> = ({}) => {
     setIsAtPickerOpen,
     atCommand,
     focusPrompt,
-    focusFile
+    focusFile,
+    autocompleteSuggestions
   } = useContext(ChatbotUIContext)
 
   const { handleSelectUserFile, handleSelectUserCollection } =
@@ -24,6 +26,10 @@ export const ChatCommandInput: FC<ChatCommandInputProps> = ({}) => {
 
   return (
     <>
+      <AutocompletePicker
+        suggestions={autocompleteSuggestions.filter(s => s.relevance > 0)}
+      />
+
       <PromptPicker />
 
       <FilePicker
