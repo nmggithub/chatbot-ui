@@ -1,5 +1,7 @@
 import { ServerRuntime } from "next"
 
+import { AutocompleteHighlightRange, AutocompleteSuggestion } from "@/types"
+
 export const runtime: ServerRuntime = "edge"
 
 const mockSentences: string[] = [
@@ -46,16 +48,14 @@ function calculateRelevance(query: string, sentence: string): number {
   return matchCount
 }
 
-type HighlightRange = { start: number; end: number }
-
 function findMatchingWordRanges(
   query: string,
   sentence: string
-): HighlightRange[] {
+): AutocompleteHighlightRange[] {
   const normalizedQuery = normalizeString(query)
   const normalizedSentence = normalizeString(sentence)
   const queryWords = normalizedQuery.split(" ")
-  const matches: HighlightRange[] = []
+  const matches: AutocompleteHighlightRange[] = []
 
   queryWords.forEach(queryWord => {
     if (queryWord.length === 0) return
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
   // simulate small delay
   await new Promise(resolve => setTimeout(resolve, 400))
 
-  const rankedSuggestions = mockSentences
+  const rankedSuggestions: AutocompleteSuggestion[] = mockSentences
     .map(suggestion => ({
       suggestion,
       relevance: calculateRelevance(query, suggestion),
