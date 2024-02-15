@@ -57,13 +57,15 @@ export const AutocompletePicker: FC<AutocompletePickerProps> = ({
 
   return (
     isAutocompletePickerOpen && (
-      <ul>
-        {suggestions.map(suggestion => (
-          <li key={suggestion.suggestion}>
-            <AutocompleteSuggestionComponent suggestion={suggestion} />
-          </li>
-        ))}
-      </ul>
+      <div className="bg-background space-y-1 rounded-xl border-2 p-2">
+        <ul>
+          {suggestions.map(suggestion => (
+            <li key={suggestion.suggestion}>
+              <AutocompleteSuggestionComponent suggestion={suggestion} />
+            </li>
+          ))}
+        </ul>
+      </div>
     )
   )
 }
