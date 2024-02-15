@@ -69,7 +69,8 @@ export const AutocompletePicker: FC<AutocompletePickerProps> = ({
   const { isAutocompletePickerOpen } = useContext(ChatbotUIContext)
 
   return (
-    isAutocompletePickerOpen && (
+    isAutocompletePickerOpen &&
+    suggestions.length > 0 && (
       <div className="bg-background space-y-1 rounded-xl border-2 p-2">
         <ul id="autocomplete-list">
           {suggestions.map(suggestion => (
