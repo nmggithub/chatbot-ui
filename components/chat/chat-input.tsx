@@ -210,6 +210,14 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
           onCompositionEnd={() => setIsTyping(false)}
         />
 
+        <div className="border-input bg-background absolute bottom-[76px] rounded-xl border-2">
+          <ul className="mx-[15px] my-[10px]">
+            {autoCompleteSuggestions.map((suggestion, i) => {
+              return <li key={i}>{suggestion.suggestion}</li>
+            })}
+          </ul>
+        </div>
+
         <div className="absolute bottom-[14px] right-3 cursor-pointer hover:opacity-50">
           {isGenerating ? (
             <IconPlayerStopFilled
