@@ -17,6 +17,7 @@ import { ChatFilesDisplay } from "./chat-files-display"
 import { useChatHandler } from "./chat-hooks/use-chat-handler"
 import { usePromptAndCommand } from "./chat-hooks/use-prompt-and-command"
 import { useSelectFileHandler } from "./chat-hooks/use-select-file-handler"
+import { AutocompleteSuggestion } from "@/types"
 
 interface ChatInputProps {}
 
@@ -28,6 +29,9 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
   })
 
   const [isTyping, setIsTyping] = useState<boolean>(false)
+  const [autoCompleteSuggestions, setAutoCompleteSuggestions] = useState<
+    AutocompleteSuggestion[]
+  >([])
 
   const {
     userInput,
@@ -68,7 +72,7 @@ export const ChatInput: FC<ChatInputProps> = ({}) => {
       }
     })
     const json = await response.json()
-    console.log(`autocomplete: ${JSON.stringify(json)}`)
+    setAutoCompleteSuggestions(json)
   }
 
   const { filesToAccept, handleSelectDeviceFile } = useSelectFileHandler()
