@@ -1,5 +1,4 @@
 import { ServerRuntime } from "next"
-
 import { AutocompleteHighlightRange, AutocompleteSuggestion } from "@/types"
 
 export const runtime: ServerRuntime = "edge"
